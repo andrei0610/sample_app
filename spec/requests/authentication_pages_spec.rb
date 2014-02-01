@@ -65,6 +65,37 @@ describe "Authentication" do
           before { visit users_path }
           it { should have_title('Sign in') }
         end
+        
+        describe "when attempting to visit a protected page" do
+          before do
+            visit edit_user_path(user)
+            fill_in "Email",    with: user.email
+            fill_in "Password", with: user.password
+            click_button "Sign in"
+          end
+
+          describe "after signing in" do
+
+            it "should render the desired protected page" do
+              expect(page).to have_title('Edit user')
+            end
+
+            describe "when signing in again" do
+              before do
+                #delete signout_path
+                visit signin_path
+                fill_in "Email",    with: user.email
+                fill_in "Password", with: user.password
+                click_button "Sign in"
+              end
+
+              it "should render the default (profile) page" do
+                expect(page).to have_title(user.name)
+              end
+            end
+          end
+        end
+          
       end
 
     end
@@ -85,6 +116,7 @@ describe "Authentication" do
         specify { expect(response).to redirect_to(root_url) }
       end
     end
+    
     describe "as non-admin user" do
       let(:user) { FactoryGirl.create(:user) }
       let(:non_admin) { FactoryGirl.create(:user) }
@@ -95,6 +127,18 @@ describe "Authentication" do
         before { delete user_path(user) }
         specify { expect(response).to redirect_to(root_url) }
       end
+    end
+    
+    describe "as ADMIN user" do 
+      let(:admin) { FactoryGirl.create(:user, admin: true) }
+      
+      before { sign_in admin, no_capybara: true }
+      
+      describe "can't delete self by submitting DELETE request to Users#destroy" do
+        before { delete user_path(admin) }
+        specify { response.should redirect_to(users_url) }
+      end
+      
     end
   end
 end
