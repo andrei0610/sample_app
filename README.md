@@ -1,28 +1,7 @@
-== README
+##Twitter Like App
+A Twitter clone web app I wrote in Ruby on Rails by following [Michael Hartl's Rails book](http://www.railstutorial.org/book), with a few twists along the way. An excellent intro into:
+* Agile principles
+* Test Driven Development
+* version control with Git
+* rapid frontend development with Twitter Bootstrap
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
